@@ -1,0 +1,21 @@
+[package]
+name = "gremlin-rs"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+license = "Apache-2.0"
+description = "Parser for the Gremlin graph traversal language, generated from Apache TinkerPop's official Gremlin.g4 grammar."
+repository = "https://github.com/ophi-dev/gremlin-rs"
+homepage = "https://github.com/ophi-dev/gremlin-rs"
+documentation = "https://docs.rs/gremlin-rs"
+keywords = ["gremlin", "tinkerpop", "graph", "parser", "antlr"]
+categories = ["parser-implementations", "parsing"]
+readme = "README.md"
+# The committed generated parser is large; ship only what the crate needs.
+exclude = ["/grammar", "/.github", "/src/generated/semantics.json"]
+
+[dependencies]
+antlr-rust-runtime = "0.9.3"
+
+[lints.rust]
+unsafe_code = "forbid"

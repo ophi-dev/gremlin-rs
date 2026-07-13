@@ -1,0 +1,18 @@
+gremlin-rs
+Copyright 2026 ophi-dev
+
+This product includes a parser generated from the Gremlin grammar
+("Gremlin.g4") developed by the Apache Software Foundation as part of
+Apache TinkerPop (https://tinkerpop.apache.org/).
+
+  Copyright 2015-2026 The Apache Software Foundation
+  Licensed under the Apache License, Version 2.0.
+
+The grammar is included in this repository at grammar/Gremlin.g4 and the
+Rust lexer/parser under src/generated/ is mechanically generated from it
+using antlr-rust-runtime (https://crates.io/crates/antlr-rust-runtime).
+
+"Gremlin", "TinkerPop", and "Apache TinkerPop" are trademarks of the
+Apache Software Foundation. This project is independent and is not
+affiliated with, sponsored by, or endorsed by the Apache Software
+Foundation.
