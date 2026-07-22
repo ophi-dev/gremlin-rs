@@ -15,7 +15,7 @@ readme = "README.md"
 exclude = ["/grammar", "/.github", "/src/generated/semantics.json"]
 
 [dependencies]
-antlr-rust-runtime = { git = "https://github.com/ophi-dev/antlr-rust-runtime", rev = "745cf7ff69fc9edca42cd4e121f2d69d5e490a43" }
+antlr-rust-runtime = { git = "https://github.com/ophi-dev/antlr-rust-runtime", rev = "c31ce00172d7a38b14dc991878caab810c40148f" }
 
 [lints.rust]
 unsafe_code = "forbid"
