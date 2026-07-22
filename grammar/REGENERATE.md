@@ -9,18 +9,11 @@ against a newer grammar revision:
 curl -fLo grammar/Gremlin.g4 \
   https://raw.githubusercontent.com/apache/tinkerpop/master/gremlin-language/src/main/antlr4/Gremlin.g4
 
-# 2. Emit ANTLR .interp metadata (requires the ANTLR 4.13.2 tool jar + Java)
-#    Gremlin.g4 is a combined grammar, so ANTLR emits Gremlin.interp + GremlinLexer.interp
-java -jar antlr-4.13.2-complete.jar -Dlanguage=Java -o build grammar/Gremlin.g4
+# 2. Generate the Rust modules directly from the combined grammar
+cargo install antlr-rust-runtime --features codegen --bin antlr4-rust-gen
+antlr4-rust-gen grammar/Gremlin.g4 --out-dir src/generated
 
-# 3. Generate the Rust modules (requires antlr-rust-runtime's generator)
-cargo install antlr-rust-runtime --bin antlr4-rust-gen   # once
-antlr4-rust-gen \
-  --lexer  build/GremlinLexer.interp \
-  --parser build/Gremlin.interp \
-  --out-dir src/generated
-
-# 4. Verify
+# 3. Verify
 cargo test
 ```
 

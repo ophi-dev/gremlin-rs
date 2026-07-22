@@ -2,7 +2,7 @@
 name = "gremlin-rs"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.80"
+rust-version = "1.95"
 license = "Apache-2.0"
 description = "Parser for the Gremlin graph traversal language, generated from Apache TinkerPop's official Gremlin.g4 grammar."
 repository = "https://github.com/ophi-dev/gremlin-rs"
@@ -15,7 +15,7 @@ readme = "README.md"
 exclude = ["/grammar", "/.github", "/src/generated/semantics.json"]
 
 [dependencies]
-antlr-rust-runtime = "0.9.3"
+antlr-rust-runtime = { git = "https://github.com/ophi-dev/antlr-rust-runtime", rev = "2f46383a84ba7efbe10ed25bd1ff1d46d8bfccb7" }
 
 [lints.rust]
 unsafe_code = "forbid"

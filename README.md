@@ -8,7 +8,7 @@ from Apache TinkerPop™'s **official** [`Gremlin.g4`][grammar] grammar via
 use gremlin_rs::parse;
 
 let tree = parse("g.V().has('name','marko').out('knows').values('name')")?;
-println!("{}", tree.text());
+println!("{}", tree.tree().text());
 # Ok::<(), gremlin_rs::GremlinParseError>(())
 ```
 
@@ -35,7 +35,7 @@ a hand-maintained re-implementation that can drift as Gremlin evolves.
 - [`parse`] — parse a `;`-separated query list (grammar entry rule `queryList`).
 - [`parse_query`] — parse a single traversal/expression (entry rule `query`).
 
-Both return [`ParseTree`] on success. Invalid input returns a
+Both return [`ParsedFile`] on success. Invalid input returns a
 `GremlinParseError` — `Syntax { count, tree }` when the parser recovered from
 syntax errors (the best-effort tree is still provided), or `Runtime` on an
 unrecoverable error.
@@ -46,11 +46,11 @@ unrecoverable error.
 |---|---|
 | Grammar | [`apache/tinkerpop` `gremlin-language/src/main/antlr4/Gremlin.g4`][grammar] |
 | Grammar commit | `5dcf41fe6161` (2026-07-09) |
-| Runtime | [`antlr-rust-runtime`](https://crates.io/crates/antlr-rust-runtime) 0.9 |
-| Generated with | `antlr4-rust-gen` (from the ANTLR `.interp` metadata) |
+| Runtime | [`antlr-rust-runtime`](https://github.com/ophi-dev/antlr-rust-runtime) `2f46383a84ba7efbe10ed25bd1ff1d46d8bfccb7` |
+| Generated with | `antlr4-rust-gen` directly from `grammar/Gremlin.g4` |
 
 The generated lexer/parser modules under `src/generated/` are committed so the
-crate builds without ANTLR or a JVM. To regenerate against a newer `Gremlin.g4`,
+crate builds without the generator. To regenerate against a newer `Gremlin.g4`,
 see [`grammar/REGENERATE.md`](grammar/REGENERATE.md).
 
 ## License
