@@ -19,7 +19,7 @@
 //! use gremlin_rs::parse;
 //!
 //! let tree = parse("g.V().has('name','marko').out('knows').values('name')")?;
-//! println!("{}", tree.text());
+//! println!("{}", tree.tree().text());
 //! # Ok::<(), gremlin_rs::GremlinParseError>(())
 //! ```
 //!
@@ -30,15 +30,15 @@
 mod generated {
     #![allow(warnings)]
     #![allow(clippy::all, clippy::pedantic, clippy::nursery)]
-    pub mod gremlin;
     pub mod gremlin_lexer;
+    pub mod gremlin_parser;
 }
 
-use antlr4_runtime::{CommonTokenStream, InputStream, Parser};
-pub use antlr4_runtime::tree::ParseTree;
+pub use antlr4_runtime::ParsedFile;
+use antlr4_runtime::{InputStream, Parser};
 
-use generated::gremlin::Gremlin;
 use generated::gremlin_lexer::GremlinLexer;
+use generated::gremlin_parser::{GremlinParser, GremlinParserParseOutput};
 
 /// An error produced while parsing Gremlin text.
 #[derive(Debug)]
@@ -48,7 +48,7 @@ pub enum GremlinParseError {
     /// The parser produced a tree but recovered from `count` syntax error(s);
     /// the input is not valid Gremlin. The recovered tree is provided for
     /// callers that want to inspect a best-effort result anyway.
-    Syntax { count: usize, tree: ParseTree },
+    Syntax { count: usize, tree: Box<ParsedFile> },
 }
 
 impl core::fmt::Display for GremlinParseError {
@@ -79,8 +79,8 @@ impl From<antlr4_runtime::AntlrError> for GremlinParseError {
 ///
 /// # Errors
 /// Returns [`GremlinParseError`] if the input is not valid Gremlin.
-pub fn parse(input: &str) -> Result<ParseTree, GremlinParseError> {
-    parse_with(input, Gremlin::query_list)
+pub fn parse(input: &str) -> Result<ParsedFile, GremlinParseError> {
+    parse_with(input, GremlinParser::query_list)
 }
 
 /// Parses a single Gremlin query (the grammar's `query` entry rule) rather than
@@ -89,26 +89,28 @@ pub fn parse(input: &str) -> Result<ParseTree, GremlinParseError> {
 ///
 /// # Errors
 /// Returns [`GremlinParseError`] if the input is not a valid single Gremlin query.
-pub fn parse_query(input: &str) -> Result<ParseTree, GremlinParseError> {
-    parse_with(input, Gremlin::query)
+pub fn parse_query(input: &str) -> Result<ParsedFile, GremlinParseError> {
+    parse_with(input, GremlinParser::query)
 }
 
 /// Shared driver: build lexer + token stream + parser, invoke `entry`, and
 /// promote recovered syntax errors to a hard error so callers get a clean
 /// valid/invalid signal by default.
-fn parse_with<F>(input: &str, entry: F) -> Result<ParseTree, GremlinParseError>
+fn parse_with<F>(input: &str, entry: F) -> Result<ParsedFile, GremlinParseError>
 where
     F: FnOnce(
-        &mut Gremlin<GremlinLexer<InputStream>>,
-    ) -> Result<ParseTree, antlr4_runtime::AntlrError>,
+        &mut GremlinParser<GremlinLexer<InputStream>>,
+    ) -> Result<antlr4_runtime::NodeId, antlr4_runtime::AntlrError>,
 {
-    let lexer = GremlinLexer::new(InputStream::new(input));
-    let tokens = CommonTokenStream::new(lexer);
-    let mut parser = Gremlin::new(tokens);
-    let tree = entry(&mut parser)?;
+    let GremlinParserParseOutput { result, parser } =
+        generated::gremlin_parser::parse_with_parser(input, GremlinLexer::new, entry)?;
     let count = parser.number_of_syntax_errors();
+    let tree = parser.into_parsed_file(result);
     if count > 0 {
-        return Err(GremlinParseError::Syntax { count, tree });
+        return Err(GremlinParseError::Syntax {
+            count,
+            tree: Box::new(tree),
+        });
     }
     Ok(tree)
 }

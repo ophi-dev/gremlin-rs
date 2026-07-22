@@ -17,7 +17,7 @@ fn parses_real_traversals() {
     for q in queries {
         let tree = parse(q).unwrap_or_else(|e| panic!("expected {q:?} to parse, got {e}"));
         // The reconstructed text should be non-empty (the tree covered the input).
-        assert!(!tree.text().is_empty(), "empty tree text for {q:?}");
+        assert!(!tree.tree().text().is_empty(), "empty tree text for {q:?}");
     }
 }
 
@@ -25,7 +25,7 @@ fn parses_real_traversals() {
 #[test]
 fn parses_query_list() {
     let tree = parse("g.V().count();g.E().count()").expect("query list should parse");
-    assert!(!tree.text().is_empty());
+    assert!(!tree.tree().text().is_empty());
 }
 
 /// `parse_query` accepts a single traversal.

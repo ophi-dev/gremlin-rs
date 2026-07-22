@@ -1,7 +1,8 @@
 {
-  "version": 1,
+  "version": 2,
   "policy": "assume-true",
   "note": "unknown coordinates currently default to assume-true; a future minor release changes the default to error",
+  "options": [],
   "grammars": [
     {
       "kind": "lexer",
@@ -10,12 +11,12 @@
     },
     {
       "kind": "parser",
-      "name": "Gremlin",
+      "name": "GremlinParser",
       "coordinates": [
-        {"kind": "parser-action", "rule": "query", "rule_index": 1, "index": null, "atn_state": 633, "line": null, "column": null, "body": null, "disposition": "ignored", "template": null},
-        {"kind": "parser-action", "rule": "traversalSource", "rule_index": 3, "index": null, "atn_state": 659, "line": null, "column": null, "body": null, "disposition": "ignored", "template": null},
-        {"kind": "parser-action", "rule": "chainedTraversal", "rule_index": 26, "index": null, "atn_state": 941, "line": null, "column": null, "body": null, "disposition": "ignored", "template": null},
-        {"kind": "parser-action", "rule": "traversalPredicate", "rule_index": 184, "index": null, "atn_state": 3071, "line": null, "column": null, "body": null, "disposition": "ignored", "template": null}
+        {"kind": "parser-action", "rule": "query", "rule_index": 1, "index": null, "atn_state": 633, "line": null, "column": null, "body": null, "disposition": "synthetic", "template": null},
+        {"kind": "parser-action", "rule": "traversalSource", "rule_index": 3, "index": null, "atn_state": 659, "line": null, "column": null, "body": null, "disposition": "synthetic", "template": null},
+        {"kind": "parser-action", "rule": "chainedTraversal", "rule_index": 26, "index": null, "atn_state": 941, "line": null, "column": null, "body": null, "disposition": "synthetic", "template": null},
+        {"kind": "parser-action", "rule": "traversalPredicate", "rule_index": 184, "index": null, "atn_state": 3071, "line": null, "column": null, "body": null, "disposition": "synthetic", "template": null}
       ]
     }
   ]
