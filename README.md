@@ -46,7 +46,7 @@ unrecoverable error.
 |---|---|
 | Grammar | [`apache/tinkerpop` `gremlin-language/src/main/antlr4/Gremlin.g4`][grammar] |
 | Grammar commit | `5dcf41fe6161` (2026-07-09) |
-| Runtime | [`antlr-rust-runtime`](https://github.com/ophi-dev/antlr-rust-runtime) `c31ce00172d7a38b14dc991878caab810c40148f` |
+| Runtime | [`antlr-rust-runtime`](https://github.com/ophi-dev/antlr-rust-runtime) `2f46383a84ba7efbe10ed25bd1ff1d46d8bfccb7` |
 | Generated with | `antlr4-rust-gen` directly from `grammar/Gremlin.g4` |
 
 The generated lexer/parser modules under `src/generated/` are committed so the
